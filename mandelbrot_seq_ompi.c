@@ -3,6 +3,7 @@
 #include <math.h>
 #include <unistd.h>
 #include <mpi.h>
+#include <time.h>
 
 #define MASTER 0
 
