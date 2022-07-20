@@ -238,9 +238,6 @@ void mandelbrot(int ntasks, int taskid) {
 };
 
 int main(int argc, char *argv[]){
-    struct timespec start_a, start_b, start_c, start_d, start_e, stop, start, end;
-    float duration;
-
     // MPI Init
     int ntasks;
     int taskid;
@@ -253,55 +250,18 @@ int main(int argc, char *argv[]){
     MPI_Comm_size(MPI_COMM_WORLD, &ntasks);
 
     // Init
-    clock_gettime(CLOCK_MONOTONIC, &start_a);
     init(argc, argv);
 
     if (taskid == MASTER) {
-        clock_gettime(CLOCK_MONOTONIC, &start_b);
         allocate_image_buffer();
 
-        clock_gettime(CLOCK_MONOTONIC, &start_c);
         master_mandelbrot(ntasks, taskid);
 
-        clock_gettime(CLOCK_MONOTONIC, &start_d);
         write_to_file();
     } else {
-        clock_gettime(CLOCK_MONOTONIC, &start_e);
         mandelbrot(ntasks, taskid);
     };  
-
-    clock_gettime(CLOCK_MONOTONIC, &stop);
-
     
-    for(int i = 0; i < argc; i++){
-        printf("%s ",argv[i]);
-    }
-
-    printf(";");
-
-    duration =  ((double)start_b.tv_sec + 1.0e-9 * start_b.tv_nsec) -
-                ((double)start_a.tv_sec + 1.0e-9 * start_a.tv_nsec); 
-    printf( "%.5lf;", duration );
-
-    duration =  ((double)start_c.tv_sec + 1.0e-9 * start_c.tv_nsec) - 
-                ((double)start_b.tv_sec + 1.0e-9 * start_b.tv_nsec); 
-    printf( "%.5lf;", duration );
-
-    duration =  ((double)start_d.tv_sec + 1.0e-9 * start_d.tv_nsec) - 
-                ((double)start_c.tv_sec + 1.0e-9 * start_c.tv_nsec); 
-    printf( "%.5lf;", duration );
-
-    duration =  ((double)start_e.tv_sec + 1.0e-9 * start_e.tv_sec) - 
-                ((double)start_d.tv_sec + 1.0e-9 * start_d.tv_nsec); 
-    printf( "%.5lf;", duration );
-
-    duration =  ((double)stop.tv_sec + 1.0e-9 * stop.tv_nsec) - 
-                ((double)start_e.tv_sec + 1.0e-9 * start_e.tv_nsec); 
-    printf( "%.5lf;", duration );
-
-    duration =  ((double)stop.tv_sec + 1.0e-9 * stop.tv_nsec) - 
-                ((double)start_a.tv_sec + 1.0e-9 * start_a.tv_nsec); 
-    printf( "%.5lf;\n", duration );
 
     MPI_Finalize();
 
