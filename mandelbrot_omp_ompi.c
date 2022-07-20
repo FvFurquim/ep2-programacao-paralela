@@ -26,6 +26,8 @@ int i_y_max;
 int image_buffer_size;
 
 int nthreads;
+int current_i_y;
+omp_lock_t stacklock;
 
 int gradient_size = 16;
 int colors[17][3] = {
@@ -308,7 +310,7 @@ int main(int argc, char *argv[]){
         write_to_file();
     } else {
         clock_gettime(CLOCK_MONOTONIC, &start_e);
-        mandelbrot(ntasks, taskid);''
+        mandelbrot(ntasks, taskid);
     };  
 
     clock_gettime(CLOCK_MONOTONIC, &stop);

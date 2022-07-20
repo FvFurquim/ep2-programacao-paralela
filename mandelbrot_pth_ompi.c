@@ -240,7 +240,7 @@ int main(int argc, char *argv[]){
     clock_gettime(CLOCK_MONOTONIC, &start_a);
     init(argc, argv);
 
-    if(taskId == MASTER) {
+    if(taskid == MASTER) {
         clock_gettime(CLOCK_MONOTONIC, &start_b);
         allocate_image_buffer();
     }
@@ -249,7 +249,7 @@ int main(int argc, char *argv[]){
 
     compute_mandelbrot();
 
-    if(taskId != MASTER) {
+    if(taskid != MASTER) {
         MPI_Barrier(MPI_COMM_WORLD);
     } else {
         update_rgb_buffer();
