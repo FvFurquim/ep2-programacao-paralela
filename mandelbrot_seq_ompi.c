@@ -6,6 +6,7 @@
 #include <time.h>
 
 #define MASTER 0
+#define _POSIX_C_SOURCE 199309L
 
 double c_x_min;
 double c_x_max;
